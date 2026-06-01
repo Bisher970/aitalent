@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Talent | Premium AI Recruitment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #050b18;
+    --bg2: #080f20;
+    --blue: #3b82f6;
+    --blue-bright: #60a5fa;
+    --purple: #8b5cf6;
+    --cyan: #22d3ee;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 6%;
+    background: rgba(5,11,24,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .logo {
+    font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--blue-bright), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .logo span { color: var(--purple); -webkit-text-fill-color: var(--purple); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; border: none; padding: .6rem 1.4rem;
+    border-radius: 8px; font-weight: 600; font-size: .9rem;
+    cursor: pointer; transition: opacity .2s;
+  }
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    position: relative; text-align: center; padding: 6rem 6% 4rem;
+    overflow: hidden;
+  }
+  canvas#particles { position: absolute; inset: 0; z-index: 0; }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.3);
+    color: var(--blue-bright); padding: .4rem 1rem; border-radius: 999px;
+    font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+  h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 900; line-height: 1.1;
+    letter-spacing: -1.5px; margin-bottom: 1.4rem;
+  }
+  h1 .grad {
+    background: linear-gradient(135deg, var(--blue-bright) 0%, var(--cyan) 50%, var(--purple) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 2.4rem; line-height: 1.7; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff; border: none; padding: .85rem 2rem;
+    border-radius: 10px; font-weight: 700; font-size: 1rem;
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 0 30px rgba(59,130,246,.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(59,130,246,.5); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--glass-border); padding: .85rem 2rem;
+    border-radius: 10px; font-weight: 600; font-size: 1rem;
+    cursor: pointer; transition: border-color .2s, background .2s;
+  }
+  .btn-outline:hover { border-color: var(--blue); background: rgba(59,130,246,.07); }
+  .hero-stats {
+    display: flex; gap: 3rem; justify-content: center; margin-top: 4rem;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg,var(--blue-bright),var(--cyan)); -webkit-background-clip:text;-webkit-text-fill-color:transparent; }
+  .stat-label { font-size: .8rem; color: var(--muted); margin-top: .2rem; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 6%; }
+  .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: .8rem; }
+  .section-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem; }
+  .section-sub { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 520px; }
+  .center { text-align: center; }
+  .center .section-sub { margin: 0 auto; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+  .about-visual {
+    position: relative; height: 340px;
+    background: linear-gradient(135deg, rgba(59,130,246,.1), rgba(139,92,246,.1));
+    border: 1px solid var(--glass-border); border-radius: 20px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .orbit-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(59,130,246,.2);
+  }
+  .ring1 { width: 200px; height: 200px; animation: spin 12s linear infinite; }
+  .ring2 { width: 280px; height: 280px; animation: spin 18s linear infinite reverse; border-color: rgba(139,92,246,.2); }
+  .ring3 { width: 340px; height: 340px; animation: spin 25s linear infinite; border-color: rgba(34,211,238,.15); }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .orbit-dot {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cyan); top: 0; left: 50%; transform: translateX(-50%);
+    box-shadow: 0 0 10px var(--cyan);
+  }
+  .center-icon { font-size: 2.8rem; z-index: 1; }
+  .about-points { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+  .about-point { display: flex; gap: 1rem; align-items: flex-start; }
+  .point-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg,var(--blue),var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+  .point-text h4 { font-weight: 700; font-size: .95rem; margin-bottom: .25rem; }
+  .point-text p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── SERVICES ── */
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 3rem auto 0; }
+  .service-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 2.5rem;
+    transition: border-color .3s, transform .3s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    opacity: 0; transition: opacity .3s;
+  }
+  .service-card.blue::before { background: linear-gradient(90deg, var(--blue), var(--cyan)); }
+  .service-card.purple::before { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+  .service-card:hover { border-color: rgba(59,130,246,.3); transform: translateY(-4px); }
+  .service-card:hover::before { opacity: 1; }
+  .service-icon { font-size: 2.2rem; margin-bottom: 1.2rem; }
+  .service-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: .8rem; }
+  .service-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+  .service-list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+  .service-list li { font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: .6rem; }
+  .service-list li::before { content: '✓'; color: var(--cyan); font-weight: 700; }
+
+  /* ── ROLES ── */
+  #roles { background: var(--bg2); }
+  .roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1.2rem; margin-top: 3rem; }
+  .role-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 16px; padding: 1.6rem 1.2rem; text-align: center;
+    transition: border-color .3s, transform .3s, background .3s;
+    cursor: default;
+  }
+  .role-card:hover { border-color: rgba(139,92,246,.4); background: rgba(139,92,246,.07); transform: translateY(-3px); }
+  .role-emoji { font-size: 2rem; margin-bottom: .8rem; }
+  .role-card h4 { font-size: .9rem; font-weight: 700; margin-bottom: .4rem; }
+  .role-card p { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+
+  /* ── WHY US ── */
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .why-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 16px; padding: 2rem;
+    transition: border-color .3s;
+  }
+  .why-card:hover { border-color: rgba(34,211,238,.3); }
+  .why-num {
+    font-size: 2.5rem; font-weight: 900; line-height: 1;
+    background: linear-gradient(135deg, var(--blue-bright), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: .8rem;
+  }
+  .why-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: .5rem; }
+  .why-card p { font-size: .87rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--bg2); }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .testi-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 20px; padding: 2rem;
+  }
+  .stars { color: #fbbf24; font-size: 1rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-card blockquote { font-size: .93rem; line-height: 1.7; color: var(--text); margin-bottom: 1.5rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: .8rem; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .9rem; color: #fff; }
+  .av1 { background: linear-gradient(135deg, var(--blue), var(--purple)); }
+  .av2 { background: linear-gradient(135deg, var(--purple), var(--cyan)); }
+  .av3 { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+  .author-info strong { font-size: .9rem; display: block; }
+  .author-info span { font-size: .78rem; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact { text-align: center; }
+  .contact-box {
+    background: linear-gradient(135deg, rgba(59,130,246,.1), rgba(139,92,246,.1));
+    border: 1px solid rgba(59,130,246,.2);
+    border-radius: 24px; padding: 4rem; max-width: 680px; margin: 3rem auto 0;
+  }
+  .contact-box h2 { font-size: 2rem; font-weight: 800; margin-bottom: .8rem; }
+  .contact-box p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .contact-form input, .contact-form select, .contact-form textarea {
+    width: 100%; background: rgba(255,255,255,.05); border: 1px solid var(--glass-border);
+    border-radius: 10px; padding: .85rem 1rem; color: var(--text); font-family: inherit;
+    font-size: .9rem; transition: border-color .2s; outline: none;
+  }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { border-color: var(--blue); }
+  .contact-form select option { background: #0f172a; }
+  .contact-form textarea { resize: vertical; min-height: 100px; }
+  .contact-form .btn-primary { width: 100%; font-size: 1rem; padding: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg2); border-top: 1px solid var(--glass-border);
+    padding: 3rem 6% 2rem; text-align: center;
+  }
+  .footer-logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, var(--blue-bright), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: .6rem; }
+  footer p { color: var(--muted); font-size: .85rem; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 5%; }
+    .nav-links { display: none; }
+    .about-grid, .services-grid, .form-row { grid-template-columns: 1fr; }
+    section { padding: 4rem 5%; }
+    .contact-box { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AI<span>.</span>Talent</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="particles"></canvas>
+  <div class="hero-content">
+    <div class="badge">Specializing in AI Recruitment</div>
+    <h1>We Find the Minds<br>Building <span class="grad">Tomorrow's AI</span></h1>
+    <p class="hero-sub">AI Talent connects world-class artificial intelligence professionals with the companies shaping the future. From ML engineers to AI researchers — we find the right fit.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Hire AI Talent</button>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Find a Role</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Placements Made</div></div>
+      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Retention Rate</div></div>
+      <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Partner Companies</div></div>
+      <div class="stat"><div class="stat-num">21</div><div class="stat-label">Days Avg. Time-to-Hire</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">Who We Are</p>
+      <h2 class="section-title">A Recruitment Firm Built for the AI Era</h2>
+      <p class="section-sub">We don't just fill roles — we build AI teams. Our recruiters come from technical AI backgrounds, giving us a unique edge in identifying true talent.</p>
+      <div class="about-points">
+        <div class="about-point">
+          <div class="point-icon">🎯</div>
+          <div class="point-text"><h4>Deep Domain Expertise</h4><p>Our team has hands-on AI and ML experience — we know exactly what skills your team needs.</p></div>
+        </div>
+        <div class="about-point">
+          <div class="point-icon">🌐</div>
+          <div class="point-text"><h4>Global AI Network</h4><p>Access a curated network of top AI professionals from leading research labs and tech companies worldwide.</p></div>
+        </div>
+        <div class="about-point">
+          <div class="point-icon">⚡</div>
+          <div class="point-text"><h4>Fast & Precise</h4><p>Our targeted approach means fewer interviews, better matches, and dramatically faster time-to-hire.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="orbit-ring ring1"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring ring2"></div>
+      <div class="orbit-ring ring3"></div>
+      <div class="center-icon">🤖</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="center">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">Tailored for Employers &amp; Candidates</h2>
+    <p class="section-sub">Whether you're scaling an AI team or taking your next career leap, we have you covered.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card blue">
+      <div class="service-icon">🏢</div>
+      <h3>For Employers</h3>
+      <p>We source, screen, and deliver pre-vetted AI talent aligned with your technical requirements and company culture.</p>
+      <ul class="service-list">
+        <li>Dedicated AI talent sourcing</li>
+        <li>Technical screening & vetting</li>
+        <li>Culture fit assessments</li>
+        <li>Contract & permanent placements</li>
+        <li>Executive search for AI leadership</li>
+      </ul>
+    </div>
+    <div class="service-card purple">
+      <div class="service-icon">🚀</div>
+      <h3>For Candidates</h3>
+      <p>We connect ambitious AI professionals with leading companies and help you land the role that matches your ambitions.</p>
+      <ul class="service-list">
+        <li>Personalized job matching</li>
+        <li>Interview coaching & prep</li>
+        <li>Salary negotiation support</li>
+        <li>Access to exclusive roles</li>
+        <li>Career growth guidance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section id="roles">
+  <div class="center">
+    <p class="section-label">Specializations</p>
+    <h2 class="section-title">AI Roles We Place</h2>
+    <p class="section-sub">We cover every discipline in the modern AI landscape — from applied engineering to frontier research.</p>
+  </div>
+  <div class="roles-grid">
+    <div class="role-card"><div class="role-emoji">⚙️</div><h4>AI Engineer</h4><p>Building and deploying intelligent systems at scale</p></div>
+    <div class="role-card"><div class="role-emoji">📊</div><h4>Data Scientist</h4><p>Extracting insights and building predictive models</p></div>
+    <div class="role-card"><div class="role-emoji">🧠</div><h4>ML Researcher</h4><p>Pushing the boundaries of machine learning theory</p></div>
+    <div class="role-card"><div class="role-emoji">🗣️</div><h4>NLP Engineer</h4><p>Building language models and conversational AI</p></div>
+    <div class="role-card"><div class="role-emoji">👁️</div><h4>Computer Vision</h4><p>Image recognition, object detection, and visual AI</p></div>
+    <div class="role-card"><div class="role-emoji">🤖</div><h4>Robotics Engineer</h4><p>Autonomous systems and intelligent robotics</p></div>
+    <div class="role-card"><div class="role-emoji">🔬</div><h4>AI Scientist</h4><p>Frontier research and novel algorithm design</p></div>
+    <div class="role-card"><div class="role-emoji">🛡️</div><h4>AI Safety</h4><p>Alignment, interpretability, and responsible AI</p></div>
+    <div class="role-card"><div class="role-emoji">📈</div><h4>MLOps Engineer</h4><p>ML infrastructure, pipelines, and model ops</p></div>
+    <div class="role-card"><div class="role-emoji">💡</div><h4>AI Product Manager</h4><p>Defining strategy and roadmaps for AI products</p></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="center">
+    <p class="section-label">Why AI Talent</p>
+    <h2 class="section-title">The Recruitment Firm That Speaks AI</h2>
+    <p class="section-sub">We're not generalist recruiters. We live and breathe artificial intelligence — and that makes all the difference.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-num">01</div><h4>Technical Credibility</h4><p>Our recruiters have AI and engineering backgrounds. We understand the difference between a Transformer and a decision tree — so we find candidates who do too.</p></div>
+    <div class="why-card"><div class="why-num">02</div><h4>Curated Talent Pool</h4><p>Our network includes alumni from DeepMind, OpenAI, Google Brain, and top universities. These candidates aren't on job boards — they're in our network.</p></div>
+    <div class="why-card"><div class="why-num">03</div><h4>Speed Without Compromise</h4><p>Our average time-to-hire is 21 days. We move fast without sacrificing quality, using a rigorous screening process tailored for AI roles.</p></div>
+    <div class="why-card"><div class="why-num">04</div><h4>Long-Term Partnership</h4><p>We track retention, gather feedback, and stay engaged after placement. Your success is our success — we're here for the long run.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="center">
+    <p class="section-label">Testimonials</p>
+    <h2 class="section-title">Trusted by AI Leaders</h2>
+    <p class="section-sub">Hear from the companies and candidates who've found their perfect match with AI Talent.</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"AI Talent found us a world-class ML research lead in under three weeks. Their technical vetting was impressive — they sent us only three candidates, and all three were exceptional."</blockquote>
+      <div class="testi-author">
+        <div class="avatar av1">SR</div>
+        <div class="author-info"><strong>Sarah R.</strong><span>CTO, Autonomous Systems Startup</span></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"Unlike other recruiters, they actually understood my research background. They matched me with a role that aligned perfectly with my work in generative models. Couldn't be happier."</blockquote>
+      <div class="testi-author">
+        <div class="avatar av2">JK</div>
+        <div class="author-info"><strong>James K.</strong><span>Senior AI Researcher</span></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <blockquote>"We've used several AI recruiting firms. AI Talent is different — they're embedded in the community, fast, and the quality of candidates is consistently top-tier."</blockquote>
+      <div class="testi-author">
+        <div class="avatar av3">ML</div>
+        <div class="author-info"><strong>Maya L.</strong><span>VP Engineering, AI SaaS Company</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label center">Get In Touch</p>
+  <div class="contact-box">
+    <h2>Let's Build Something Intelligent</h2>
+    <p>Tell us what you're looking for and we'll be in touch within 24 hours.</p>
+    <div class="contact-form">
+      <div class="form-row">
+        <input type="text" placeholder="Your Name">
+        <input type="email" placeholder="Email Address">
+      </div>
+      <select>
+        <option value="" disabled selected>I am a...</option>
+        <option>Employer looking to hire</option>
+        <option>Candidate looking for a role</option>
+        <option>Just exploring</option>
+      </select>
+      <input type="text" placeholder="Company / Role (optional)">
+      <textarea placeholder="Tell us about your hiring needs or the role you're looking for..."></textarea>
+      <button class="btn-primary" onclick="this.textContent='Message Sent ✓'; this.style.background='linear-gradient(135deg,#10b981,#059669)'; setTimeout(()=>{this.textContent='Send Message';this.style.background='';},3000)">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AI.Talent</div>
+  <p>© 2026 AI Talent Recruitment. All rights reserved.</p>
+  <p style="margin-top:.4rem">Connecting the world's best AI minds with the companies shaping the future.</p>
+</footer>
+
+<script>
+// Particle Canvas
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, pts = [];
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+
+function initPts() {
+  pts = [];
+  for (let i = 0; i < 90; i++) {
+    pts.push({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4,
+      r: Math.random() * 1.5 + .5
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i];
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(96,165,250,0.6)';
+    ctx.fill();
+    for (let j = i + 1; j < pts.length; j++) {
+      const q = pts[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+        ctx.strokeStyle = `rgba(96,165,250,${.18 * (1 - dist/120)})`;
+        ctx.lineWidth = .5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+}
+
+resize(); initPts(); draw();
+window.addEventListener('resize', () => { resize(); initPts(); });
+</script>
+</body>
+</html>
